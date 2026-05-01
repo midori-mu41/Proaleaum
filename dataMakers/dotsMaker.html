@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            input{
+                width: 100px;
+                height: 50px;
+                
+            }
+            table{
+                border-collapse: collapse;
+                width: 600px;
+                height: 600px;
+            }
+            div{
+                display: flex;
+                justify-content: center;
+            }
+            th,td{
+                border: 2px solid rgb(154, 152, 255);
+            }
+            button{
+                border:none;
+                width: 100%;
+                height: 100%;
+            }
+            .white{
+                background-color: white;
+                color: black;
+            }
+            .black{
+                background-color: black;
+                color: white;
+            }
+            body{
+                text-align: center;
+                user-select: none;
+            }
+        </style>
+        <title>ドットデータメーカ</title>
+    </head>
+    <body>
+        <input id="list" onchange="ListToCanvas()">
+        <input id="width" type="number" value="7" onchange="CanvasToList();">
+        <input id="height" type="number" value="7" onchange="CanvasToList();">
+        <br>
+        <br>
+        <br>
+        <div id="output"></div>
+        <br>
+        <br>
+        <br>
+        <button style="padding: 50px; width: 500px; font-size: 30px;" onclick="listUp();">リストアップ</button>
+        <script>
+            window.onload = function(){
+                CanvasToList();
+            };
+            let list = [];
+
+            let isDown = false;
+            let changeMode = 'none';
+            document.addEventListener("mousedown", () => isDown = true);
+            document.addEventListener("mouseup", () => isDown = false);
+
+            function CanvasToList(){
+                const w = document.getElementById('width').value;
+                const h = document.getElementById('height').value;
+                let number = 0;
+                let listNumber = 0;
+                let output = `<table>`;
+                list = [];
+                for(let i = 0; i < h ; i++){
+                    output += `<tr>`;
+                    list.push([]);
+                for(let i = 0; i < w ; i++){
+                    output += `<td><button class='white' id='${number}' onmouseover='changeList(${number});'>0</button></td>`;
+                    list[listNumber].push(0);
+                    number++;
+                }
+                    output += `</tr>`;
+                    listNumber++;
+                }
+                console.log(list);
+                document.getElementById('output').innerHTML = output;
+            }
+            function ListToCanvas(){
+                const el = document.getElementById('list').value;
+                const fixed = el.replace(/'/g, '"');
+                const list = JSON.parse(fixed);
+                console.log(list);
+                const w = list[0].length;
+                const h = list.length;
+                let number = 0;
+                let output = `<table>`;
+                for(let x = 0; x < h ; x++){
+                    output += `<tr>`;
+                for(let y = 0; y < w ; y++){
+                    const yesMYList = list[x][y];
+                    const className = (yesMYList=='0')? 'white' : 'black' ;
+                    output += `<td><button class='${className}' id='${number}' onmouseover='changeList(${number});'>0</button></td>`;
+                    number++;
+                }
+                    output += `</tr>`;
+                }
+                document.getElementById('output').innerHTML = output;
+            }
+            function changeList(number){
+                if(!isDown)changeMode='none';
+                if(!isDown) return;
+                const B = document.getElementById(number);
+                const w = document.getElementById('width').value;
+                const h = document.getElementById('height').value;
+
+                if(changeMode == 'none')changeMode = B.className;
+                
+                console.log(changeMode);
+
+                if(changeMode=='white'){
+                    B.innerText = 1;
+                    B.className = 'black';
+                    list[Math.floor(number/w)][number%w] = 1;
+                }
+                else{
+                    B.innerText = 0;
+                    B.className = 'white';
+                    list[Math.floor(number/w)][number%w] = 0;
+                }
+                console.log(list);
+            }
+
+            function listUp(){
+                console.log(list);
+                    const text =
+`\t\ticon:[
+${list.map(row =>
+    "\t\t\t\t[" + row.map(v => `'${v}'`).join(", ") + "]"
+).join(",\n")}
+\t\t]`;
+                    navigator.clipboard.writeText(text);
+            }
+        </script>
+    </body>
+</html>

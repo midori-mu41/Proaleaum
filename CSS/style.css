@@ -1,0 +1,121 @@
+/** 本体 **/
+@font-face {
+    font-family: "Misaki";
+    src: url("fonts/misaki_gothic.ttf") format("truetype");
+}
+
+body {
+    background: #222;
+    font-family: "Misaki", monospace;
+}
+
+/** カード **/
+#cardsView {
+    display: flex;
+    gap: 10px;
+}
+/* 本体 */
+.card {
+    min-width: 220px;
+    height: 390px;
+    background: #f5f5f5;
+    border-radius: 12px;
+    padding: 10px;
+    box-sizing: border-box;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+/* 上部 */
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+/* コスト */
+.costs {
+    display: flex;
+    gap: 4px;
+}
+.cost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    
+    height: 24px;
+    min-width: 24px;
+
+    padding: 0 1px; /* 横に余白 */
+
+    border-radius: 9999px;
+    position: relative; /* ←これ重要 */
+}
+.cost span {
+    transform: translate(10%, 5%);
+
+    color: white;
+    font-size: 20px;
+
+    line-height: 1;
+    pointer-events: none;
+}
+
+/* アイコン */
+.card-icon{
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+}
+.card-icon table{
+    border: 2px solid black;
+    width :150px;
+    height: 150px;
+    table-layout: fixed;
+}
+.card-icon td{
+    background-color: black;
+}
+
+/* エフェクトアイコン */
+.desc-icon{
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+}
+.desc-icon table{
+    width :25px;
+    height: 25px;
+    border-collapse: collapse;
+}
+.desc-icon td{
+    background-color: black;
+}
+.desc-icon a{
+    background-color: rgb(209, 209, 209);
+    font-size: 25px;
+}
+
+/* 名前 */
+.card-name {
+    display: flex;
+    justify-content: center;
+    font-size: 30px;
+    padding-bottom: 3px;
+    border-bottom: 1px solid #ccc;
+}
+
+/* 説明 */
+.card-desc {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    font-size: 16px;
+    padding-top: 10px;
+}
+
+/* タイプ */
+.card-type {
+    text-align: center;
+    font-size: 14px;
+    margin-top: auto;
+}
